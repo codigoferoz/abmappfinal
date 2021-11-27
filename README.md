@@ -54,7 +54,7 @@ npm install
 npm start
 ```
 
-## Buided with 🛠️
+## Builded with 🛠️
 
 _The tools used in this project are:_
 
