@@ -1,5 +1,9 @@
 # ABM WITH REACT.JS 
 
+#NOTICE
+
+_This application is still under development. Editing and deletion will be enabled in version 1.2.0._
+
 _This simple application will help you to manage your finances._
 
 ## Sarting 🚀
