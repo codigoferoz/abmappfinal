@@ -49,10 +49,16 @@ export default class RecordList extends Component {
         const record = response.data;
         const { page, size } = this.state;
         const currPage = paginate(record, page, size);
+        const totalAmount = record.reduce((acc, curr)=>{ 
+          let cur =curr.cashflow_amount
+            return acc + Number(cur); 
+          }, 0)
+        console.log("total:", totalAmount);
         this.setState({
           ...this.state,
           record, 
           currPage,
+          totalAmount,
         });
       }); 
   }
@@ -129,65 +135,70 @@ export default class RecordList extends Component {
       page: newPage,
       currPage: newCurrPage,
     });
-  }
+  } 
 
   // This following section will display the table with the records of financial movements.
   render() {
-    const { page, size, currPage, } = this.state;
+    const { page, size, currPage, totalAmount } = this.state;
     return (      
-      <div class="container-fluid" style={{ marginTop: 20 }}>
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <table class="table">
-                <thead class="thead-dark">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-sm" role="alert">page: {page}</div>
-                      <div class="col-sm" role="alert">size: {size}</div>
-                      <div class="col-sm" role="alert">                      
-                        <label class="" for="inputGroupSelect01">Options</label>                      
-                          <select class="custom-select" id="inputGroupSelect01" name="size" id="size" onChange={this.handleChange}>
-                            <option class="input-group mb-3" aria-label="Third group" selected>Choose...</option>
-                            <option value="5">Five</option>
-                            <option value="10">Ten</option>
-                            <option value="20">Tuenty</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  <tr>
-                  <th scope="col">Actions</th>
-                  </tr>
-                </thead>
-              <tbody>
-                <tr>      
-                  {currPage &&
-                    <ul>
-                      {currPage.data.map(currentrecord => 
-                      <li key={currentrecord.id}><th>
-                      Concept: <br></br> 
-                      {currentrecord.cashflow_concept}</th><th>
-                      Amount: <br></br>
-                      {currentrecord.cashflow_amount}</th><th>
-                      Date: <br></br>
-                      {currentrecord.cashflow_date}</th><th class="col">
-                      Type: <br></br>
-                      {currentrecord.cashflow_type}</th>
-                      </li>)}
-                    </ul>
-                  }   
-                </tr>             
+      <div class="container-fluid" style={{ marginTop: 20 }}>        
+        <div class="row">
+          <div class="col-12">
+          <div class="col-sm" role="alert" style={{fontWeight: "bold"}}>Total Balance: {totalAmount}</div>
+            <table class="table">
+              <thead class="thead-dark">                                
+                <tr>
+                  <th>Concept</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+                  <th>Type</th>
+                  <th>Actions</th>                          
+                </tr>
+              </thead>                  
+              <tbody>                     
+                {currPage &&
+                  (
+                    currPage.data.map((currentrecord, i) => {
+                      return(
+                        <tr key={currentrecord.id}>
+                          <td style={{fontWeight: "bold"}}>{currentrecord.cashflow_concept}</td>
+                          <td>{currentrecord.cashflow_amount}</td>
+                          <td>{currentrecord.cashflow_date}</td>
+                          <td>{currentrecord.cashflow_type}</td>
+                          <td>
+                          <Link to={"/edit/" + currentrecord._id}>Edit</Link> | 
+                          <Link to={"/delete/" + currentrecord._id}>Delete</Link>
+                          </td>                          
+                        </tr>
+                      );
+                    })                      
+                  )}
               </tbody>
             </table>
-          </div>
+          </div>      
+          <div>
+            <div class="container-fluid" style={{ marginTop: 20 }}> 
+              <div class="col-12">
+                <div class="col-sm" role="alert">page: {page}</div>
+                <div class="col-sm" role="alert">size: {size}</div>
+              </div>
+          </div> 
+            <div class="container-fluid" style={{ marginTop: 20 }}>
+                <label class="col-12" for="inputGroupSelect01">Rows view options</label>                      
+                  <select class="custom-select" id="inputGroupSelect01" name="size" id="size" onChange={this.handleChange}>
+                    <option class="input-group mb-3" aria-label="Third group" selected>Choose...</option>
+                    <option value="5">Five</option>
+                    <option value="10">Ten</option>
+                    <option value="20">Twenty</option>
+                  </select>
+            </div> 
+          </div> 
         </div>     
-          <div class="btn-group mr-2" role="group" aria-label="Third group">
-            <button type="button" class="btn btn-primary" onClick={this.previousPage}>Previous Page</button>
-            <button type="button" class="btn btn-secondary" onClick={this.nextPage}>Next Page</button>
-          </div>         
-        </div>
-      </div>      
+        <div class="btn-group mr-2" role="group" aria-label="Third group" style={{ marginTop: 20 }}>
+          <button type="button" class="btn btn-primary" onClick={this.previousPage}>Previous Page</button>
+          <button type="button" class="btn btn-secondary" onClick={this.nextPage}>Next Page</button>
+        </div>                  
+      </div>           
     );
   }
 }
