@@ -12,7 +12,7 @@ const Navbar = () => {
         <ul className="navbar-nav ml-auto">
           <li className="nav-item active">
             <NavLink className="nav-link" to="/create">
-              Create Record
+              Add New
             </NavLink>
           </li>
         </ul>        
