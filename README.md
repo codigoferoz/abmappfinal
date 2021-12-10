@@ -26,7 +26,7 @@ _You must make sure to install the NodeJS modules in the Server and Client folde
 Do not forget to create the "config.env" file with the necessary data to connect with your ATLAS cluster account_
 
 
-## Desploy 📦
+## Deploy 📦
 
 _To start the server you must open a terminal and go to the "server" folder and then execute the command:
 $ node server._
@@ -69,7 +69,7 @@ _The tools used in this project are:_
 
 * **Adrián López** - [@codigoferoz](https://www.codigoferoz.com.ar)
 
-## Licencia 📄
+## Licence 📄
 
 This project is under the MIT License - Look at the file [LICENSE.md](LICENSE.md) for more details.
 
